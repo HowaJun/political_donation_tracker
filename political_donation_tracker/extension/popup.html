@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Political Donation Tracker</title>
+    <link rel="stylesheet" href="popup.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="brand">
+      <p class="brand-mark">Donation Ledger</p>
+      <p class="brand-sub">FEC-backed donor tracking</p>
+    </header>
+
+    <section class="search">
+      <div class="mode-toggle" role="tablist" aria-label="Search mode">
+        <button type="button" class="mode-btn active" data-mode="politicians" id="modePoliticians">
+          Politicians
+        </button>
+        <button type="button" class="mode-btn" data-mode="pacs" id="modePacs">PACs</button>
+      </div>
+      <label for="query" id="searchLabel">Search a politician</label>
+      <div class="search-row">
+        <input
+          id="query"
+          type="search"
+          placeholder="e.g. Nancy Pelosi"
+          autocomplete="off"
+        />
+        <button id="searchBtn" type="button">Search</button>
+      </div>
+      <ul id="results" class="results" hidden></ul>
+    </section>
+
+    <section id="profile" class="profile" hidden>
+      <div class="profile-head">
+        <div class="identity">
+          <img id="candidatePhoto" class="photo photo-lg" alt="" hidden />
+          <div class="identity-text">
+            <h1 id="candidateName"></h1>
+            <p id="candidateMeta" class="meta"></p>
+          </div>
+        </div>
+        <label class="cycle">
+          Cycle
+          <select id="cycleSelect"></select>
+        </label>
+      </div>
+
+      <article class="summary">
+        <h2 id="summaryHeading">Financial summary</h2>
+        <p id="llmSummary" class="summary-text">Loading summary…</p>
+      </article>
+
+      <div id="totals" class="totals"></div>
+
+      <div id="candidateControls" class="controls">
+        <label>
+          Donor type
+          <select id="donorType">
+            <option value="individual">Individuals</option>
+            <option value="all">All direct donors</option>
+            <option value="pac">PACs / committees</option>
+            <option value="superpac">Super PAC IE</option>
+            <option value="organization">Organizations (employer)</option>
+          </select>
+        </label>
+        <label>
+          Sort
+          <select id="sortBy">
+            <option value="total_desc">Highest amount</option>
+            <option value="total_asc">Lowest amount</option>
+            <option value="name_asc">Name A–Z</option>
+          </select>
+        </label>
+      </div>
+
+      <section id="partySection" class="table-block" hidden>
+        <h2>Giving by party</h2>
+        <p class="hint">Based on top itemized Schedule B gifts to political committees.</p>
+        <div id="partyBars" class="party-bars"></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Cycle</th>
+                <th>Dem</th>
+                <th>Rep</th>
+                <th>Other</th>
+              </tr>
+            </thead>
+            <tbody id="partyHistoryBody"></tbody>
+          </table>
+        </div>
+        <button id="historyBtn" type="button" class="secondary-btn" hidden>
+          Load prior-cycle history
+        </button>
+      </section>
+
+      <section id="donorSection" class="table-block">
+        <h2 id="donorHeading">Top donors</h2>
+        <div class="table-wrap">
+          <table>
+            <thead id="donorHead">
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>#</th>
+              </tr>
+            </thead>
+            <tbody id="donorBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="orgSection" class="table-block">
+        <h2>Top organizations</h2>
+        <p class="hint">Ranked by employer totals on itemized individual contributions.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Organization</th>
+                <th>Amount</th>
+                <th>#</th>
+              </tr>
+            </thead>
+            <tbody id="orgBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <p id="status" class="status" role="status"></p>
+    <script src="popup.js"></script>
+  </body>
+</html>
